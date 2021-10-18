@@ -1,1 +1,121 @@
 Check the build courseware https://redhat-scholars.github.io/build-course[documentation]  on how folder structure, how to use macros and other gotchas
+
+
+= tailored-openshift-starter-guides
+
+This is a collection of starter guides taken from https://redhat-scholars.github.io/openshift-starter-guides/rhs-openshift-starter-guides/4.8/index.html, and customized for specific use cases. 
+
+The template used can be found here: https://redhat-scholars.github.io/build-course/rhs-build-course/index.html
+
+
+== Using specific SSH keys with GitHub
+
+If you have multiple GitHub accounts and need to work with SSH keys that correspond to each on the same system, you can export the `GIT_SSH_COMMAND` environment variable to specify a specific key to use:
+
+[source%nowrap,console]
+----
+export GIT_SSH_COMMAND="ssh -i <PATH_TO_PRIVATE_KEY> -o 'IdentitiesOnly yes'"
+----
+
+== New Documentation from template
+
+Visit https://github.com/redhat-scholars/courseware-template to create new (aka folk)
+
+Clone your new repo and change directory into it. 
+
+
+== Dev Mode
+
+You can run the project locally in dev mode for live refreshing in the browser.
+
+Ensure `npm` is installed:
+
+[source%nowrap,console]
+----
+dnf install npm
+----
+
+In the project directory, install npm dependencies:
+
+[source%nowrap,console]
+----
+npm install
+----
+
+Install `gulp` globally:
+
+[source%nowrap,console]
+----
+sudo npm install --global gulp-cli
+----
+
+Then, you can run the project locally and natively in dev mode:
+
+[source%nowrap,console]
+----
+gulp
+----
+
+http://localhost:3000
+
+== Build and Run using Podman
+
+Clone this repository, and build a local container image:
+
+[source%nowrap,console]
+----
+buildah bud -t local/custom-openshift-starter-guides .
+----
+
+Create a new pod:
+
+[source%nowrap,console]
+----
+podman pod create -n custom-starter-guides-pod -p 8080:8080
+----
+
+List available pods:
+
+[source%nowrap,console]
+----
+podman pod list
+----
+
+Run the container:
+
+[source%nowrap,console]
+----
+podman run -d --pod custom-starter-guides-pod localhost/local/custom-starter-guides
+----
+
+View running containers:
+
+[source%nowrap,console]
+----
+podman ps
+----
+
+Access a running container:
+
+[source%nowrap,console]
+----
+podman exec -it <ID/NAME> /bin/bash
+----
+
+== Working on documentation
+
+Under the `documentation` directory, edit the `nav.adoc` to include pages in the side navigation, for example:
+
+[source%nowrap,console]
+----
+documentation/modules/ROOT/nav.adoc
+----
+
+Under `documentation/modules/ROOT/pages` edit `index.adoc` to include pages. 
+
+You can add/edit any pages referenced in that file under `pages`.
+
+[source%nowrap,console]
+----
+documentation/modules/ROOT/pages
+----

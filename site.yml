@@ -2,9 +2,9 @@ runtime:
   cache_dir: ./.cache/antora
 
 site:
-  title: Template Tutorial
-  url: https://redhat-scholars.github.io/course-template
-  start_page: template-tutorial::index.adoc
+  title: OpenShift Starter Guides
+  url: https://localhost:8080/
+  start_page: openshift-starter-guides::index.adoc
 
 content:
   sources:
@@ -21,7 +21,7 @@ asciidoc:
 
 ui:
   bundle:
-    url: https://github.com/redhat-developer-demos/rhd-tutorial-ui/releases/download/v0.1.9/ui-bundle.zip
+    url: ui-bundle.zip
     snapshot: true
   supplemental_files:
     - path: ./supplemental-ui

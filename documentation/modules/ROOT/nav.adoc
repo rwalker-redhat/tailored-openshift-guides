@@ -1,7 +1,14 @@
-* xref:01-setup.adoc[1. Setup]
-** xref:01-setup.adoc#prerequisite[Prerequisites]
-** xref:01-setup.adoc#minikube[Setup Minikube]
+* xref:00-common-summary.adoc[Guides Summary]
 
-* xref:02-deploy.adoc[2. Deploy Service]
-** xref:02-deploy.adoc#package[Build Service]
-** xref:02-deploy.adoc#deploy[Deploy Dervice]
+* xref:common-explore.adoc[Explore OpenShift]
+** xref:common-explore.adoc#the_web_console[The Web Console]
+** xref:common-explore.adoc#command_line_interface[Command Line Interface]
+*** xref:common-explore.adoc#download_openshift_cli[Download OpenShift CLI]
+*** xref:common-explore.adoc#connect_to_the_cluster_with_cli[Connect to the OpenShift Cluster from CLI]
+**** xref:common-explore.adoc#working_with_proxies[Working with proxies]
+
+* xref:01-0-getting-started.adoc[Getting Started]
+** xref:01-1-architecture.adoc#package[OpenShift Architecture]
+** xref:01-2-web-console.adoc#package[Web Console]
+** xref:01-3-cli.adoc#package[Command Line Interface]
+

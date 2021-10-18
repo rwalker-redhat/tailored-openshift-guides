@@ -1,0 +1,4 @@
+= Getting Started
+:navtitle: Getting Started
+
+To work through these guides you will need access to an OpenShift 4.x cluster.

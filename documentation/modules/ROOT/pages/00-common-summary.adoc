@@ -1,0 +1,12 @@
+= Overview
+:navtitle: Overview
+
+This content is intended to provide hands on exercises to using OpenShift from the perspective of a developer.
+
+Topics will be tailored for a range of scenarios including OpenShift 3.x to 4.x migrations. 
+
+Topics which this workshop will cover include:
+
+* Using the OpenShift command line client and web console.
+
+Additional topics may also be covered relevant to the specific programming language used by the applications being deployed.

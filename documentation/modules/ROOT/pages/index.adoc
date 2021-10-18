@@ -1,20 +1,27 @@
-= Welcome to Template Tutorial
+= Welcome to Tailored OpenShift Guides
 :page-layout: home
 :!sectids:
 
 [.text-center.strong]
-== Publish Services to Kubernetes
+== Overview
 
-A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.
+The content and documentation found here is a selection of tailored guides, each covered a specific scenario. 
 
 [.tiles.browse]
-== Browse modules
+== Content
+
 
 [.tile]
-.xref:01-setup.adoc[Get Started]
-* xref:01-setup.adoc#minikube[Minikube]
+.xref:common-summary.adoc[Summary]
+* xref:00-common-summary.adoc[Summary]
 
 [.tile]
-.xref:02-deploy.adoc[Deploying]
-* xref:02-deploy.adoc#package[Package the Application]
-* xref:02-deploy.adoc#deploy[Deploy the Application]
+.xref:01-0-getting-started.adoc[Getting Started]
+* xref:01-1-architecture.adoc[Architecture]
+* xref:01-2-web-console.adoc[Web Console]
+* xref:01-3-cli.adoc[Command Line Interface]
+
+// [.tile]
+// .xref:02-deploy.adoc[Deploying]
+// * xref:02-deploy.adoc#package[Package the Application]
+// * xref:02-deploy.adoc#deploy[Deploy the Application]
