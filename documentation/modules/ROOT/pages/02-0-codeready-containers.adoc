@@ -1,0 +1,394 @@
+= CodeReady Containers
+include::_attributes.adoc[]
+
+[#introduction]
+== Introduction to CodeReady Containers
+
+When working with OpenShift 3.x users may be familiar with Minishift, a tool that helps you run OpenShift locally by launching a single-node cluster inside a virtual machine.
+
+Coming to OpenShift 4 there has been some re-branding, the equivalent is called CodeReady Containers (CRC). 
+
+This guide provides detailed information on how to deploy CodeReady Containers inside a dedicated Virtual Machine, which better simulates working with an OpenShift Cluster as a developer. 
+
+This same approach can be used for deploying CRC to a dedicated physical machine such as an Intel NUC on a local network. 
+
+Official documentation can be found here: https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.34
+
+[#minimum_requirements]
+== Minimum Requirements
+
+The latest version at the time of writing is 1.34 recommends 4 physical CPU cores, 9GB RAM and 35GB storage. Ideally dedicate more if you can, especially in regards to memory.
+
+This guide uses a Virtual Machine with the following with Red Hat Enterprise Linux 8.4 installed:
+
+[cols="1,1"]
+|===
+|CPU Cores
+|6
+
+|Memory
+|20480MiB
+
+|Storage
+|120
+|===
+
+NOTE: The CRC setup downloads a bundle of approximately 12GB, `/home` can soon fill up and cause problems due to lack of storage if in insufficiently provisioned. 
+
+[#init_setup]
+== Initial Set-Up
+
+A regular user is required and must be used to SSH to the Virtual Machine. 
+
+IMPORTANT: Using SSH for connecting to the VM as `root` and switching user causes problems with CRC. Therefore, as detailed below SSH directly to the VM as the `dev` user.
+
+=== Add a regular user
+
+If required, as the `root` user add a user account for working with CRC, in this case adding a user called `dev`: 
+
+[source%nowrap,console]
+----
+useradd dev
+passwd dev
+usermod -aG wheel dev
+----
+
+=== Connect to VM
+
+[source%nowrap,console]
+----
+ssh dev@192.168.122.200
+----
+
+[#downloads]
+== Downloads
+
+Install `wget` and `tar`if required: 
+
+[source%nowrap,console]
+----
+sudo dnf install wget tar -y
+----
+
+Download both CRC and the OpenShift client tool:
+
+[source%nowrap,console]
+----
+wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/1.34.0/crc-linux-amd64.tar.xz
+
+wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz
+----
+
+[source%nowrap,console]
+----
+tar -xvf crc-linux-amd64.tar.xz 
+sudo mv crc-linux-1.34.0-amd64/crc /usr/local/bin
+sudo tar -xvf openshift-client-linux.tar.gz -C /usr/local/bin
+----
+
+And validate both, confirming there versions:
+
+[source%nowrap,console]
+----
+crc version
+CodeReady Containers version: 1.34.0+34c31851
+OpenShift version: 4.9.0 (embedded in executable)
+----
+
+[source%nowrap,console]
+----
+oc version
+Client Version: 4.9.0
+----
+
+[#install_crc]
+== Install CodeReady Containers
+
+=== Install CRC
+
+Firstly, set the memory for CRC to increase it from the default. I'm setting it to 12G leaving 4G for the underlying operating system and other services I might wish to host on this same host, check available memory:
+
+[source%nowrap,console]
+----
+free -h
+              total        used        free      shared  buff/cache   available
+Mem:           19Gi       253Mi        12Gi       8.0Mi       6.4Gi        19Gi
+Swap:         9.9Gi          0B       9.9Gi
+----
+
+Set the memory for CRC to use:
+
+[source%nowrap,console]
+----
+crc config set memory 16384
+crc config get memory
+----
+
+Next run the crc setup, this needs root privileges and may prompt you for the `sudo` password during the process. The setup process downloads a 11.5GB bundle, and may take some time depending on your download speed:
+
+[source%nowrap,console]
+----
+crc setup
+----
+
+Start up CRC, which will prompt for your pull-secret and takes some time to extract the `crc_libvirt` bundle and complete.
+
+During the start process you will need to obtain and paste in your pull secret available here: https://cloud.redhat.com/openshift/create/local
+
+
+[source%nowrap,console]
+----
+crc start
+----
+
+Again, the start-up process may take some time, __waiting for the cluster to stabilize__.
+
+Once this does successfully complete you should have some output providing access details for example:
+
+[source%nowrap,console]
+----
+Started the OpenShift cluster.
+
+The server is accessible via web console at:
+  https://console-openshift-console.apps-crc.testing
+
+Log in as administrator:
+  Username: kubeadmin
+  Password: VqUJA-QVqAT-Cv4jn-bFmaD
+
+Log in as user:
+  Username: developer
+  Password: developer
+
+Use the 'oc' command line interface:
+  $ eval $(crc oc-env)
+  $ oc login -u developer https://api.crc.testing:6443
+----
+
+Therefore you can test logging in using the `oc` command on the CRC host:
+
+[source%nowrap,console]
+----
+oc login -u kubeadmin -p VqUJA-QVqAT-Cv4jn-bFmaD https://api.crc.testing:6443
+----
+
+[#setup_remote]
+== Setting up as a remote server
+
+[#firewall]
+=== Firewall
+
+To access CRC running on this host from other clients you need to open the following firewall ports:
+
+[source%nowrap,console]
+----
+sudo firewall-cmd --permanent --add-port=6443/tcp --zone public
+sudo firewall-cmd --permanent --add-service=http --zone public
+sudo firewall-cmd --permanent --add-service=https --zone public
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all
+----
+
+Label the non-standard port `6443` for SELInux:
+
+[source%nowrap,console]
+----
+sudo dnf install policycoreutils-python-utils -y
+sudo semanage port -a -t http_port_t -p tcp 6443
+----
+
+[#haproxy]
+=== HAProxy
+
+Next, you'll need a reverse proxy to access OpenShift externally, install HAProxy:
+
+[source%nowrap,console]
+----
+sudo dnf install haproxy -y
+----
+
+Backup the original config:
+
+[source%nowrap,console]
+----
+sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
+----
+
+Obtain the IP address for both the CRC VM and the physical host:
+
+[source%nowrap,console]
+----
+crc ip
+
+192.168.130.11
+----
+
+[source%nowrap,console]
+----
+ip a
+
+192.168.122.155
+----
+
+Now add the HAProxy configuration using your IP Addresses:
+
+[source%nowrap,console]
+----
+sudo vi /etc/haproxy/haproxy.cfg
+----
+
+[source%nowrap,text]
+----
+global
+    log         127.0.0.1 local2
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option                  redispatch
+    retries                 3
+    timeout http-request    30s
+    timeout queue           1m
+    timeout connect         30s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 30s
+    timeout check           30s
+    maxconn                 4000
+
+listen stats
+    bind 0.0.0.0:9000
+    mode http
+    balance
+    timeout client 5000
+    timeout connect 4000
+    timeout server 30000
+    stats uri /stats
+    stats refresh 5s
+    stats realm HAProxy\ Statistics
+    stats auth admin:changeme
+    stats admin if TRUE
+
+# Load Banlancers
+
+frontend apps
+    bind 192.168.122.155:80
+    bind 192.168.122.155:443
+    option tcplog
+    mode tcp
+    default_backend apps
+
+backend apps
+    mode tcp
+    server crcserver 192.168.130.11:80 check
+    server crcserver 192.168.130.11:443 check
+
+frontend api
+    bind 192.168.122.155:6443
+    option tcplog
+    mode tcp
+    default_backend api
+
+backend api
+    mode tcp
+    server crcserver 192.168.130.11:6443 check
+----
+
+The following needs to be enabled to avoid issues starting up HAProxy:
+
+[source%nowrap,console]
+----
+sudo vi /etc/sysctl.conf
+
+net.ipv4.ip_nonlocal_bind=1
+----
+
+[source%nowrap,console]
+----
+sudo sysctl -p
+----
+
+And start and enable `haproxy`:
+
+[source%nowrap,console]
+----
+sudo systemctl enable haproxy
+sudo systemctl start haproxy
+----
+
+[source%nowrap,console]
+----
+sudo firewall-cmd --permanent --add-port=9000/tcp --zone public
+sudo firewall-cmd --reload
+----
+
+You can view HAProxy stats at http://192.168.122.155:9000/stats with username `admin` password `changeme` as defined in `haproxy.cfg`.
+
+[#client_config]
+=== Client configuration
+
+Any Linux client host you wish to access CRC needs additional configuration, you'll also need the OpenShift command-line tools installed. In my case I'm using a RHEL8 client laptop:
+
+Configure `NetworkManager` to use dnsmask:
+
+[source%nowrap,console]
+----
+sudo vi /etc/NetworkManager/conf.d/00-dnsmasq.conf
+
+[main]
+dns=dnsmasq
+----
+
+Add the address for crc applications and the api:
+
+[source%nowrap,console]
+----
+sudo vi /etc/NetworkManager/dnsmasq.d/01-crc.conf
+
+address=/apps-crc.testing/192.168.0.48
+address=/api.crc.testing/192.168.0.48
+----
+
+And reload the configuration:
+
+[source%nowrap,console]
+----
+sudo systemctl reload NetworkManager
+----
+
+And test the DNS can resolve to your CRC host IP address:
+
+[source%nowrap,console]
+----
+sudo dnf install net-tools -y
+nslookup api.crc.testing
+nslookup console-openshift-console.apps-crc.testing
+----
+
+=== Accessing CRC
+
+You can obtain the URL for the web console using `crc console` on the CRC host.
+
+With everything now in place you should be able to log into OpenShift CodeReady Containers from your client computer either using a web browser:
+
+https://console-openshift-console.apps-crc.testing
+
+Or via the CLI example:
+
+[source%nowrap,console]
+----
+oc login -u kubeadmin -p DhjTx-8gIJC-2h2tK-eksGY https://api.crc.testing:6443
+----
+
+=== systemd

@@ -12,14 +12,18 @@ The content and documentation found here is a selection of tailored guides, each
 
 
 [.tile]
-.xref:common-summary.adoc[Summary]
+.Summary
 * xref:00-common-summary.adoc[Summary]
 
 [.tile]
 .xref:01-0-getting-started.adoc[Getting Started]
 * xref:01-1-architecture.adoc[Architecture]
 * xref:01-2-web-console.adoc[Web Console]
-* xref:01-3-cli.adoc[Command Line Interface]
+
+[.tile]
+.CodeReady Containers
+* xref:02-0-codeready-containers.adoc[CodeReady Containers]
+
 
 // [.tile]
 // .xref:02-deploy.adoc[Deploying]

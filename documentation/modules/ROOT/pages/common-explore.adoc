@@ -230,6 +230,10 @@ Kubernetes Version: v1.21.0+bd9e442
 
 If you see output like the above you can skip to <<Connect to the OpenShift Cluster from CLI,Connect to the OpenShift Cluster from CLI>>.  
 
+
+[#download_openshift_cli]
+== Download OpenShift CLI
+
 However, if the `oc` command doesn't exist or you have an older version of the OpenShift CLI (e.g. < `4.4.x`), select the tab appropriate to your OS and follow the instructions to install or update the OpenShift CLI. 
 
 [tabs]

@@ -12,3 +12,14 @@
 ** xref:01-2-web-console.adoc#package[Web Console]
 ** xref:01-3-cli.adoc#package[Command Line Interface]
 
+
+* xref:02-0-codeready-containers.adoc[CodeReady Containers]
+** xref:02-0-codeready-containers.adoc#introduction[Introduction]
+** xref:02-0-codeready-containers.adoc#minimum_requirements[Minimum Requirements]
+** xref:02-0-codeready-containers.adoc#init_setup[Initial Set-Up]
+** xref:02-0-codeready-containers.adoc#downloads[Downloads]
+** xref:02-0-codeready-containers.adoc#install_crc[Install CRC]
+** xref:02-0-codeready-containers.adoc#setup_remote[Setup as Remote Server]
+*** xref:02-0-codeready-containers.adoc#firewall[Firewalld]
+*** xref:02-0-codeready-containers.adoc#haproxy[HAProxy]
+*** xref:02-0-codeready-containers.adoc#client_config[Client Configuration]
