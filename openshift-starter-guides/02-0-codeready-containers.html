@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CodeReady Containers :: OpenShift Starter Guides</title>
+    <link rel="canonical" href="https://localhost:8080/openshift-starter-guides/02-0-codeready-containers.html">
+    <link rel="prev" href="#01-3-cli.adoc#package">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <p class="navbar-item"><img src="../_/img/Logo-Red_Hat-OpenShift-A-Reverse-RGB.png" height="40px" alt="Red Hat"></p>
+      <p class="navbar-item" style="font-size: 24px; color: white">OpenShift Starter Guides</p>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-starter-guides" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="00-common-summary.html">Guides Summary</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="common-explore.html">Explore OpenShift</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="common-explore.html#the_web_console">The Web Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="common-explore.html#command_line_interface">Command Line Interface</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="common-explore.html#download_openshift_cli">Download OpenShift CLI</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="common-explore.html#connect_to_the_cluster_with_cli">Connect to the OpenShift Cluster from CLI</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="4">
+    <a class="nav-link" href="common-explore.html#working_with_proxies">Working with proxies</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-0-getting-started.html">Getting Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-1-architecture.html#package">OpenShift Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-2-web-console.html#package">Web Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#01-3-cli.adoc#package">Command Line Interface</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-0-codeready-containers.html">CodeReady Containers</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#minimum_requirements">Minimum Requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#init_setup">Initial Set-Up</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#downloads">Downloads</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#install_crc">Install CRC</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#setup_remote">Setup as Remote Server</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#firewall">Firewalld</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#haproxy">HAProxy</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#client_config">Client Configuration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="#" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Starter Guides</a></li>
+    <li><a href="02-0-codeready-containers.html">CodeReady Containers</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">CodeReady Containers</h1>
+<div class="sect1">
+<h2 id="introduction"><a class="anchor" href="#introduction"></a>Introduction to CodeReady Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When working with OpenShift 3.x users may be familiar with Minishift, a tool that helps you run OpenShift locally by launching a single-node cluster inside a virtual machine.</p>
+</div>
+<div class="paragraph">
+<p>Coming to OpenShift 4 there has been some re-branding, the equivalent is called CodeReady Containers (CRC).</p>
+</div>
+<div class="paragraph">
+<p>This guide provides detailed information on how to deploy CodeReady Containers inside a dedicated Virtual Machine, which better simulates working with an OpenShift Cluster as a developer.</p>
+</div>
+<div class="paragraph">
+<p>This same approach can be used for deploying CRC to a dedicated physical machine such as an Intel NUC on a local network.</p>
+</div>
+<div class="paragraph">
+<p>Official documentation can be found here: <a href="https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.34" class="bare">https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.34</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="minimum_requirements"><a class="anchor" href="#minimum_requirements"></a>Minimum Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The latest version at the time of writing is 1.34 recommends 4 physical CPU cores, 9GB RAM and 35GB storage. Ideally dedicate more if you can, especially in regards to memory.</p>
+</div>
+<div class="paragraph">
+<p>This guide uses a Virtual Machine with the following with Red Hat Enterprise Linux 8.4 installed:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CPU Cores</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20480MiB</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">120</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The CRC setup downloads a bundle of approximately 12GB, <code>/home</code> can soon fill up and cause problems due to lack of storage if in insufficiently provisioned.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="init_setup"><a class="anchor" href="#init_setup"></a>Initial Set-Up</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A regular user is required and must be used to SSH to the Virtual Machine.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Using SSH for connecting to the VM as <code>root</code> and switching user causes problems with CRC. Therefore, as detailed below SSH directly to the VM as the <code>dev</code> user.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_add_a_regular_user"><a class="anchor" href="#_add_a_regular_user"></a>Add a regular user</h3>
+<div class="paragraph">
+<p>If required, as the <code>root</code> user add a user account for working with CRC, in this case adding a user called <code>dev</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">useradd dev
+passwd dev
+usermod -aG wheel dev</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connect_to_vm"><a class="anchor" href="#_connect_to_vm"></a>Connect to VM</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">ssh dev@192.168.122.200</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="downloads"><a class="anchor" href="#downloads"></a>Downloads</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Install <code>wget</code> and `tar`if required:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo dnf install wget tar -y</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Download both CRC and the OpenShift client tool:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/1.34.0/crc-linux-amd64.tar.xz
+
+wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">tar -xvf crc-linux-amd64.tar.xz
+sudo mv crc-linux-1.34.0-amd64/crc /usr/local/bin
+sudo tar -xvf openshift-client-linux.tar.gz -C /usr/local/bin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And validate both, confirming there versions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">crc version
+CodeReady Containers version: 1.34.0+34c31851
+OpenShift version: 4.9.0 (embedded in executable)</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">oc version
+Client Version: 4.9.0</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="install_crc"><a class="anchor" href="#install_crc"></a>Install CodeReady Containers</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_install_crc"><a class="anchor" href="#_install_crc"></a>Install CRC</h3>
+<div class="paragraph">
+<p>Firstly, set the memory for CRC to increase it from the default. I&#8217;m setting it to 12G leaving 4G for the underlying operating system and other services I might wish to host on this same host, check available memory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">free -h
+              total        used        free      shared  buff/cache   available
+Mem:           19Gi       253Mi        12Gi       8.0Mi       6.4Gi        19Gi
+Swap:         9.9Gi          0B       9.9Gi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Set the memory for CRC to use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">crc config set memory 16384
+crc config get memory</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next run the crc setup, this needs root privileges and may prompt you for the <code>sudo</code> password during the process. The setup process downloads a 11.5GB bundle, and may take some time depending on your download speed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">crc setup</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Start up CRC, which will prompt for your pull-secret and takes some time to extract the <code>crc_libvirt</code> bundle and complete.</p>
+</div>
+<div class="paragraph">
+<p>During the start process you will need to obtain and paste in your pull secret available here: <a href="https://cloud.redhat.com/openshift/create/local" class="bare">https://cloud.redhat.com/openshift/create/local</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">crc start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, the start-up process may take some time, <em>waiting for the cluster to stabilize</em>.</p>
+</div>
+<div class="paragraph">
+<p>Once this does successfully complete you should have some output providing access details for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">Started the OpenShift cluster.
+
+The server is accessible via web console at:
+  https://console-openshift-console.apps-crc.testing
+
+Log in as administrator:
+  Username: kubeadmin
+  Password: VqUJA-QVqAT-Cv4jn-bFmaD
+
+Log in as user:
+  Username: developer
+  Password: developer
+
+Use the 'oc' command line interface:
+  $ eval $(crc oc-env)
+  $ oc login -u developer https://api.crc.testing:6443</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Therefore you can test logging in using the <code>oc</code> command on the CRC host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">oc login -u kubeadmin -p VqUJA-QVqAT-Cv4jn-bFmaD https://api.crc.testing:6443</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setup_remote"><a class="anchor" href="#setup_remote"></a>Setting up as a remote server</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="firewall"><a class="anchor" href="#firewall"></a>Firewall</h3>
+<div class="paragraph">
+<p>To access CRC running on this host from other clients you need to open the following firewall ports:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo firewall-cmd --permanent --add-port=6443/tcp --zone public
+sudo firewall-cmd --permanent --add-service=http --zone public
+sudo firewall-cmd --permanent --add-service=https --zone public
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Label the non-standard port <code>6443</code> for SELInux:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo dnf install policycoreutils-python-utils -y
+sudo semanage port -a -t http_port_t -p tcp 6443</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="haproxy"><a class="anchor" href="#haproxy"></a>HAProxy</h3>
+<div class="paragraph">
+<p>Next, you&#8217;ll need a reverse proxy to access OpenShift externally, install HAProxy:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo dnf install haproxy -y</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Backup the original config:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Obtain the IP address for both the CRC VM and the physical host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">crc ip
+
+192.168.130.11</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">ip a
+
+192.168.122.155</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now add the HAProxy configuration using your IP Addresses:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo vi /etc/haproxy/haproxy.cfg</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-text hljs" data-lang="text">global
+    log         127.0.0.1 local2
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option                  redispatch
+    retries                 3
+    timeout http-request    30s
+    timeout queue           1m
+    timeout connect         30s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 30s
+    timeout check           30s
+    maxconn                 4000
+
+listen stats
+    bind 0.0.0.0:9000
+    mode http
+    balance
+    timeout client 5000
+    timeout connect 4000
+    timeout server 30000
+    stats uri /stats
+    stats refresh 5s
+    stats realm HAProxy\ Statistics
+    stats auth admin:changeme
+    stats admin if TRUE
+
+# Load Banlancers
+
+frontend apps
+    bind 192.168.122.155:80
+    bind 192.168.122.155:443
+    option tcplog
+    mode tcp
+    default_backend apps
+
+backend apps
+    mode tcp
+    server crcserver 192.168.130.11:80 check
+    server crcserver 192.168.130.11:443 check
+
+frontend api
+    bind 192.168.122.155:6443
+    option tcplog
+    mode tcp
+    default_backend api
+
+backend api
+    mode tcp
+    server crcserver 192.168.130.11:6443 check</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following needs to be enabled to avoid issues starting up HAProxy:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo vi /etc/sysctl.conf
+
+net.ipv4.ip_nonlocal_bind=1</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo sysctl -p</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And start and enable <code>haproxy</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo systemctl enable haproxy
+sudo systemctl start haproxy</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo firewall-cmd --permanent --add-port=9000/tcp --zone public
+sudo firewall-cmd --reload</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can view HAProxy stats at <a href="http://192.168.122.155:9000/stats" class="bare">http://192.168.122.155:9000/stats</a> with username <code>admin</code> password <code>changeme</code> as defined in <code>haproxy.cfg</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="client_config"><a class="anchor" href="#client_config"></a>Client configuration</h3>
+<div class="paragraph">
+<p>Any Linux client host you wish to access CRC needs additional configuration, you&#8217;ll also need the OpenShift command-line tools installed. In my case I&#8217;m using a RHEL8 client laptop:</p>
+</div>
+<div class="paragraph">
+<p>Configure <code>NetworkManager</code> to use dnsmask:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo vi /etc/NetworkManager/conf.d/00-dnsmasq.conf
+
+[main]
+dns=dnsmasq</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the address for crc applications and the api:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo vi /etc/NetworkManager/dnsmasq.d/01-crc.conf
+
+address=/apps-crc.testing/192.168.0.48
+address=/api.crc.testing/192.168.0.48</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And reload the configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo systemctl reload NetworkManager</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And test the DNS can resolve to your CRC host IP address:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">sudo dnf install net-tools -y
+nslookup api.crc.testing
+nslookup console-openshift-console.apps-crc.testing</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_crc"><a class="anchor" href="#_accessing_crc"></a>Accessing CRC</h3>
+<div class="paragraph">
+<p>You can obtain the URL for the web console using <code>crc console</code> on the CRC host.</p>
+</div>
+<div class="paragraph">
+<p>With everything now in place you should be able to log into OpenShift CodeReady Containers from your client computer either using a web browser:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://console-openshift-console.apps-crc.testing" class="bare">https://console-openshift-console.apps-crc.testing</a></p>
+</div>
+<div class="paragraph">
+<p>Or via the CLI example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-console hljs" data-lang="console">oc login -u kubeadmin -p DhjTx-8gIJC-2h2tK-eksGY https://api.crc.testing:6443</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_systemd"><a class="anchor" href="#_systemd"></a>systemd</h3>
+
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="#01-3-cli.adoc#package">Command Line Interface</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
