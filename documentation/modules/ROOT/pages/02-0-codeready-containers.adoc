@@ -340,6 +340,8 @@ You can view HAProxy stats at http://192.168.122.155:9000/stats with username `a
 
 Any Linux client host you wish to access CRC needs additional configuration, you'll also need the OpenShift command-line tools installed. In my case I'm using a RHEL8 client laptop:
 
+==== Red Hat Enterprise linux 
+
 Configure `NetworkManager` to use dnsmask:
 
 [source%nowrap,console]
@@ -371,7 +373,42 @@ And test the DNS can resolve to your CRC host IP address:
 
 [source%nowrap,console]
 ----
-sudo dnf install net-tools -y
+sudo dnf install net-tools bind-utils -y
+nslookup api.crc.testing
+nslookup console-openshift-console.apps-crc.testing
+----
+
+=== Fedora 33+
+
+While doing this on Fedora 34, a newer `resolved` daemon prevented the `dnsmasq` changes to be honored. Disabling the service and rebooted resolved the issue. 
+
+[source%nowrap,console]
+----
+service systemd-resolved stop
+systemctl disable systemd-resolved.service 
+systemctl mask systemd-resolved.service
+----
+
+Manually add DNS nameservers:
+
+[source%nowrap,console]
+----
+unlink /etc/resolv.conf
+vi /etc/resolv.conf
+
+nameserver 127.0.0.1
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+reboot
+----
+
+
+DNS resolution should work for external and local domains as expected, for example:
+
+[source%nowrap,console]
+----
+nslookup www.google.com
 nslookup api.crc.testing
 nslookup console-openshift-console.apps-crc.testing
 ----
@@ -391,4 +428,4 @@ Or via the CLI example:
 oc login -u kubeadmin -p DhjTx-8gIJC-2h2tK-eksGY https://api.crc.testing:6443
 ----
 
-=== systemd
+
